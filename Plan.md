@@ -10,8 +10,8 @@ gouv.fr/administration/precautions-elementaires/calculer-la-force-dun-mot-de-pas
 
 5.Interface graphique Tkinter: Creer des fenetres TERMINE
 
-6.Verification systematique: Verification durant la saisie du mdp (a chaque caractere)
+6.Verification systematique: Verification durant la saisie du mdp (a chaque caractere) TERMINE
 
-7.Graphe: Frequence des caracteres utilises dans le mdp
+7.Graphe: Frequence des caracteres utilises dans le mdp TERMINE
 
 8.Copie papier: Expliquer les methodes detaillees utilisees pour toutes les fonctionnalites
