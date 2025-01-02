@@ -4,10 +4,10 @@ import random
 from collections import Counter
 from string import punctuation
 import tkinter as tk
-from tkinter import *
-from tkinter import ttk
 from matplotlib import pyplot as plt
-from tkinter import messagebox
+from tkinter import ttk, messagebox
+from tkinter import Tk, Label
+from PIL import Image, ImageTk
 
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
@@ -25,8 +25,9 @@ set(chiffres) #Liste des chiffres.
 def tkinter():
     """Fenêtre tkinter pour le test de force
 
-    Returns:
-        None: None
+    E: type: None, None
+    
+    S: type: None, None
     """
     
     global CompteurE #On peut l'utiliser dans d'autres fonctions.
@@ -47,17 +48,28 @@ def tkinter():
         
         
         if len(text) >= 7 and any(text[i:i+7].islower() and text[i:i+7].isalpha() for i in range(len(text) - 6)) or len(text) >= 4 and any(text[i:i+4].isdigit() for i in range(len(text) - 3)): #On regarde si le texte fait un certain nombre de caractères et si dans les sous-chaînes créées à partir de la chaîne de caractère qu'est le mot de passe il y a des caractères qui s'enchaînent trop. On ne traite pas les sous-chaînes qui ne sont pas complètes.
+            
             messagebox.showerror("Erreur", "Pour avoir un mot de passe sécurisé, veuillez s'il vous plait, varier les caractères.") #popup erreur
+            
             CompteurE += 1 #On compte le nombre d'erreurs affichées.
-            if CompteurE == 3:
-                TroisErreurs()
+            
+            if CompteurE == 3: #Si le nombre d'erreurs est de trois.
+                
+                TroisErreurs() #Appelle la fonction.
+                
                 CompteurE = 0 #On remet le compteur à zéro pour que l'utilisateur puisse écrire à nouveau.
+                
             return False #On empêche d'écrire.
-        return True
+        
+        return True #Retourne True.
 
 
     def TroisErreurs():
         """Fonction qui affcihe une erreur et qui efface l'entrée.
+        
+        E: type: None, None
+    
+        S: type: None, None
         """
         messagebox.showerror("Erreur", "Veuillez prendre en considération les recommations sur la sécurité de votre mot de passe s'il vous plait.") #popup erreur
         mdp_entry.delete(0, tk.END) #Supprime le contenu de l'entrée.
@@ -66,10 +78,19 @@ def tkinter():
 
     def mdpGet():
         """Affiche la force du mot de passe.
+        
+        E: type: None, None
+    
+        S: type: None, None
         """
+        
         Mdp = mdp_entry.get() #On obtient ce qui est écrit dans l'entrée.
-        print(TestForce(Mdp)) #Effectue le test de force.
-        tk.ttk.Label(frm, text=f"Votre force de mot de passe est de {Force}/20.").grid(column=0, row=2) #Affiche une étiquette sur laquelle est donnée la force du mot de passe.
+        
+        retourForce = TestForce(Mdp) #Effectue le test de force.
+        
+        labForce.config(text=f"Votre force de mot de passe est de {retourForce}/20.") #On change la force affichee.
+        
+        print(GrapheTest()) #Lance la fonction qui fait le graphe.
 
 
     root = tk.Tk() #Crée une fenêtre avec Tkinter.
@@ -88,21 +109,32 @@ def tkinter():
     
     tk.ttk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet()).grid(column=1, row=1) #Bouton pour effectuer le test.
     
+    labForce = tk.ttk.Label(frm, text=f"Votre force de mot de passe est de [?]/20.")#Affiche une étiquette sur laquelle est donnée la force du mot de passe.
+    labForce.grid(column=0, row=2) # Organise sur la grille.
+    
     #BoucleBase
     root.mainloop()
     
 
 def tkinter2():
     """Générateur de mot de passe.
+    
+    E: type: None, None
+    
+    S: type: None, None
     """
     
     def optionsGet():
         """Lance le générateur de mot de passe avec les arguments choisis par l'utilisateur.
+        
+        E: type: None, None
+    
+        S: type: None, None
         """
         Longueur = int(ChoixLongueur.get()) #On récupère les arguments écrits dans les entrées.
         Nombre = int(NombreDeMots.get())
         print(Generateur(Longueur, Nombre)) #Effectue l& génération du mot de passe.
-        tk.ttk.Label(frm, text=f"Votre mot de passe est {GenerationMdp}.").grid(column=0, row=2) #Etiquette qui affcihe le mot de passe.
+        Label_result.config(text = f"Votre mot de passe est {GenerationMdp}.")
     
     GenerateurTKinter = tk.Tk() #Créer une fenêtre.
     frm = tk.ttk.Frame(GenerateurTKinter, padding=10) #Crée un cadre.
@@ -124,29 +156,51 @@ def tkinter2():
     
     tk.ttk.Button(frm, text="Valider", command=lambda: optionsGet()).grid(column=1, row=3) #Bouton lançant la génération.
     
+    Label_result = tk.ttk.Label(frm, text=f"Votre mot de passe est [?].") #Etiquette qui affiche le mot de passe.
+    Label_result.grid(column=0, row=3)
+    
     #BoucleBase
     GenerateurTKinter.mainloop()
     
 
 def tkinterHome():
     """Fenêtre principale.
+    
+    E: type: None, None
+    
+    S: type: None, None
     """
     def FonctionnaliteGet():
         """Renvoie vers les autres fenêtres avec le choix de l'utilisateur.
+        
+        E: type: None, None
+    
+        S: type: None, None
         """
         ChoixUtilisateur = int(ChoixUser.get()) #Récupère le choix.
+        
         if ChoixUtilisateur == 0: #Condition, si l'utilisateur a choisi d'aller sur le test ou le générateur.
+            
             print(tkinter()) #Test de force
+            
         else:
+            
             print(tkinter2()) #Générateur
+            
     Home = tk.Tk() #Crée la fenêtre.
+    
     frm = tk.ttk.Frame(Home, padding=10) #Crée un cadre.
     frm.grid() #On organise le cadre avec une grille.
+    
     tk.ttk.Label(frm, text="Gestionnaire de mots de passe").grid(column=0, row=0) #Etiquette.
+    
     tk.ttk.Label(frm, text="Test de force = 0, Generateur de mot de passe = 1").grid(column=1, row=1) #Etiquette
+    
     tk.ttk.Button(frm, text="Quit", command=Home.destroy).grid(column=1, row=0) #Bouton pour détruire la fenêtre.
+    
     ChoixUser = tk.Entry(frm, text="Fonctionnalite") #On crée une entrée pour choisir ou aller.
     ChoixUser.grid(column=0, row=1) #Organise dans la grille.
+    
     tk.ttk.Button(frm, text="Valider", command=lambda: FonctionnaliteGet()).grid(column=1, row=3) #Bouton pour se déplacer.
     
     #BoucleBase
@@ -180,16 +234,16 @@ def Generateur(Longueur, Nombre):
         #Fais une liste de tous les mots qui commencent par la premiere lettre puis selectionne un des mots aleatoirement
         ListePremiereLettre = [mot for mot in ListeFrancais if mot.lower().startswith(PremiereLettre)]
             
-        MotSuivant = random.choice(ListePremiereLettre)
+        MotSuivant = random.choice(ListePremiereLettre) # Le mot est decide aleatoirement parmi les mots selectionnes.
             
         #Limite le nombre de caracteres pris dans le mot
         MotSuivant = MotSuivant[:Longueur]
             
-        print(MotSuivant)
+        print(MotSuivant) #Affiche le mot suivant.
             
         GenerationMdp = GenerationMdp + (MotSuivant) + "-" #Mot de passe.
         
-    return ("")
+    return ("") # Ne retourne rien.
 
 
 
@@ -240,37 +294,80 @@ def TestForce(Mdp):
         Force = 20
     elif Force < 0: #Si le mot de passe est en dessous de zéro la force du mot de passe prend la valeur de la note minimale, 0.
         Force = 0
-
-    print(GrapheTest()) #Lance la fonction qui fait le graphe.
         
-    return(f"Votre force de mot de passe est de {Force}/20.") #Retourne une f-string (formatted string = chaîne de caractère qui inclue des expressions dynamiques) avec une phrase et la valeur de la variable Force qui prend la place du texte entrz parenthèses.
+    return(Force) #Retourne la force.
         
   
   
   
   
 def GrapheTest():
-    """Affiche un graphe des fréquences des caractères.
+    """On crée un graphique et on en fait une image qu'on enregistre.
+    
+    E: type: None, None
+    
+    S: type: None, None
     """
     CarX = sorted(set(MdpUser), key=MdpUser.index) #Liste de l'axe x. Cette liste est composée de caractères présents une fois seulement. On crée un set MdpUser pour supprimmer les caractères en double ou plus puis on crée une liste triée avec les caractères du set placés dans la liste en fonction de leut indice dans la chaîne de caractères initiale.
     FreqY = [Frequence[lettre] for lettre in CarX] #Liste de l'axe y. Liste des fréquences du dictionnaire pour toutes les clés de ce même dictionnaire dans la liste triée Carx.
     
     plt.figure(figsize = (8, 8)) #Défini la taille du graphe.
+    
     plt.title("Frequence des caracteres dans le mot de passe") #Donne un titre.
+    
     plt.xlabel("Caracteres") #Etiquette de l'axe x.
+    
     plt.ylabel("Frequence", rotation = 45) #Etiquette de l'axe y, tournée à 45 degrés pour permettre une lecture plus aisée.
+    
     plt.xticks(range(len(CarX)), CarX, rotation = 45) #Les caractères sont affichés sur l'axe des abscisses.
     #On ne le fait pas pour l'axe y car Mathplotlib gère tout seul quand on utilise la liste FreqY en argument dans plt.plot ou plt.scatter.
     
     plt.legend(title = "Attention, les caractères dépassant la ligne pointillée se répètent beaucoup.", bbox_to_anchor = (0.5, -0.1), loc = "center") #Légende dont le centre est situé à une position x de 1/2 du graphique et à une position y de -1/10 du graphique.
+    
     plt.plot(CarX, [3] * len(CarX), linestyle = "--", color = "red") #Ligne constante en y = 3.
+    
     plt.plot(CarX, FreqY, linestyle = "-", color = "blue") #Ligne qui va de points en points en fonction des valeurs x et y des points du graphe.
     
     
     plt.scatter(CarX, FreqY, marker = "+", color = "green") #Crée des points pour chaque paire de valeurs.
-    plt.show() #Affiche le graphique créé.
-  
-  
+    
+    plt.savefig(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Sauvegarde du graphique.
+      
+    
+    #On ouvre l'image puis on la converti a un format que tkinter comprend mais si ca ne fonctionne pas on retourne un message d'erreur. Cela n'est utile que pour mieux avoir conscience d'ou peut se situer une erreur.
+    try:
+        
+        image = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Ouvre l'image.
+        
+    except: # Si ca ne fonctionne pas.
+        
+        messagebox.showerror("Erreur", "Image non trouvée.") # Message d'erreur.
+        
+        return("Erreur") # Met fin a la fonction.
+    
+    photo = ImageTk.PhotoImage(image) #Converti l'image sous un format que tkinter comprend.
+    
+    afficher_graph_tkinter(photo) #On lance la fonction avec l'image en arguments.
+    
+def afficher_graph_tkinter(photo):
+    """_Affiche le graphique sur une fenetre tkinter._
+
+    Args:
+        photo (_png_): _L'image du graphique._
+    """
+    graph = tk.Toplevel() #On crée une fenetre secondaire.
+    graph.title("Graphique") #Titre
+    
+    label = tk.Label(graph, image = photo) #Une étiquette.
+    label.config(image = photo) #On configure l'étiquette en concervant l'image pour éviter que le garbage collector de python ne la supprime.
+    label.grid(column = 0, row = 0) #On organise l'étiquette.
+    
+    tk.ttk.Button(graph, command = graph.destroy, text = "Quit").grid(column = 1, row = 1) #Bouton pour quitter.
+    
+    
+    
+    graph.mainloop() #BoucleBase
+    
   
   
 #Choix utilisateur
