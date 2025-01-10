@@ -1,22 +1,35 @@
 #imports
 import string
+
 import random
+
 from collections import Counter
+
 from string import punctuation
+
 import tkinter as tk
+
 from matplotlib import pyplot as plt
+
 from tkinter import ttk, messagebox
+
 from tkinter import Tk, Label
+
 from PIL import Image, ImageTk
 
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
-ChoixUser = 0
+
 NombreDeMots = 0
+
 ListePremiereLettre = []
+
 MotSuivant = 0
+
 set(punctuation) #Liste des caractères spéciaux.
+
 chiffres = "0123456789" #Définition des chiffres sous forme d'une chaîne de caractères.
+
 set(chiffres) #Liste des chiffres.
 
 
@@ -91,27 +104,115 @@ def tkinter():
         labForce.config(text=f"Votre force de mot de passe est de {retourForce}/20.") #On change la force affichee.
         
         print(GrapheTest()) #Lance la fonction qui fait le graphe.
+        
+    global NombreAffichage #On peut l'utiliser dans d'autres fonctions.
+    
+    NombreAffichage = 0 #Initialise le nombre d'affichages.
+        
+    def AfficheMDP():
+        """Affiche le mot de passe.
+        
+        E: type: None, None
+    
+        S: type: None, None
+        """
+        
+        global NombreAffichage #On fait référence à une variable définie en dehors de la fonction ce qui nous permet de la modifiée même si elle n'est pas définie dans la fonction.
+        
+        NombreAffichage += 1 #Ajoute 1 au nombre d'affichages.
+        
+        if NombreAffichage == 1:
+            
+            mdp_entry.config(show = "")
+            
+            OuvreOeuil()
+            
+        else:
+            mdp_entry.config(show = "卍")
+            
+            NombreAffichage = 0
+            
+            FermeOeuil()
+            
+        return("")
 
-
-    root = tk.Tk() #Crée une fenêtre avec Tkinter.
+    root = tk.Toplevel() #Crée une fenêtre secondaire avec Tkinter.
+    
     frm = tk.ttk.Frame(root, padding=10) #Crée un cadre.
+    
     frm.grid() #On organise le cadre avec une grille.
+    
+    frm.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    frm.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    root.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    root.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
     #Convertir la forme de la fonction
     validate_command = root.register(validation) #On passe la commande de vérification sous la bonne forme pour que tkinter puisse l'utiliser.
     
 
-    tk.ttk.Label(frm, text="Force du mot de passe").grid(column=0, row=0) #Une étiquette.
-    tk.ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0) #Bouton pour détruire la fenêtre.
+    tk.ttk.Label(frm, text="Force du mot de passe").grid(column=0, row=0, sticky = "nsew") #Une étiquette.
     
-    mdp_entry = tk.Entry(frm, text="Mot de passe.", validate = 'key', validatecommand = (validate_command, '%P')) #On crée l'entrée.
-    mdp_entry.grid(column=0, row=1) #Place l'entrée dans l'endroit de la grille voulu.
+    tk.ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=2, sticky = "nsew") #Bouton pour détruire la fenêtre.
     
-    tk.ttk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet()).grid(column=1, row=1) #Bouton pour effectuer le test.
+    mdp_entry = tk.Entry(frm, text="Mot de passe.", show = "卍", validate = 'key', validatecommand = (validate_command, '%P')) #On crée l'entrée.
+    
+    mdp_entry.grid(column=0, row=1, sticky = "nsew") #Place l'entrée dans l'endroit de la grille voulu.
+    
+    tk.ttk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet()).grid(column=1, row=0) #Bouton pour effectuer le test.
     
     labForce = tk.ttk.Label(frm, text=f"Votre force de mot de passe est de [?]/20.")#Affiche une étiquette sur laquelle est donnée la force du mot de passe.
-    labForce.grid(column=0, row=2) # Organise sur la grille.
     
+    labForce.grid(column=0, row=2, sticky = "nsew") # Organise sur la grille.
+    
+    global imageOuvert #On peut l'utiliser dans d'autres fonctions.
+    
+    imageOuvert = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilOuvert.jpg") #Ouvre l'image.
+    
+    imageOuvert = imageOuvert.resize((50, 25)) #Redimensionne l'image.
+    
+    imageOuvert = ImageTk.PhotoImage(imageOuvert) #Convertit l'image sous un format que tkinter comprend.
+    
+    
+    global imageOeuilFerme #On peut l'utiliser dans d'autres fonctions.
+    
+    imageOeuilFerme = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilFerme.jpg") #Ouvre l'image.
+    
+    imageOeuilFerme = imageOeuilFerme.resize((50, 25)) #Redimensionne l'image.
+    
+    imageOeuilFerme = ImageTk.PhotoImage(imageOeuilFerme) #Convertit l'image sous un format que tkinter comprend.
+    
+    Bouton_oeuil = tk.ttk.Button(frm, image = imageOeuilFerme, command=lambda: AfficheMDP())#Bouton pour afficher le mot de passe.
+    
+    Bouton_oeuil.image = imageOeuilFerme #On conserve l'image pour éviter que le garbage collector de python ne la supprime.
+    
+    Bouton_oeuil.grid(column=1, row=1, sticky = "w") #Organise sur la grille.
+    
+    def OuvreOeuil():
+        """Ouvre l'oeil.
+        
+        E: type: None, None
+    
+        S: type: None, None
+        """
+        global image #On peut l'utiliser dans d'autres fonctions.
+        
+        Bouton_oeuil.config(image = imageOuvert)
+        
+    def FermeOeuil():
+        """Ouvre l'oeil.
+        
+        E: type: None, None
+    
+        S: type: None, None
+        """
+        global imageOeuilFerme #On peut l'utiliser dans d'autres fonctions.
+        
+        Bouton_oeuil.config(image = imageOeuilFerme)
+
     #BoucleBase
     root.mainloop()
     
@@ -132,32 +233,48 @@ def tkinter2():
         S: type: None, None
         """
         Longueur = int(ChoixLongueur.get()) #On récupère les arguments écrits dans les entrées.
+        
         Nombre = int(NombreDeMots.get())
-        print(Generateur(Longueur, Nombre)) #Effectue l& génération du mot de passe.
+        
+        print(Generateur(Longueur, Nombre)) #Effectue la génération du mot de passe.
+        
         Label_result.config(text = f"Votre mot de passe est {GenerationMdp}.")
     
     GenerateurTKinter = tk.Tk() #Créer une fenêtre.
+    
     frm = tk.ttk.Frame(GenerateurTKinter, padding=10) #Crée un cadre.
+    
     frm.grid() #On organise le cadre avec une grille.
     
-    tk.ttk.Label(frm, text="Generateur").grid(column=0, row=0) #Etiquette.
+    frm.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    tk.ttk.Button(frm, text="Quit", command=GenerateurTKinter.destroy).grid(column=1, row=0) #Bouton pour détruire la fenêtre.
+    frm.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    GenerateurTKinter.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    GenerateurTKinter.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    tk.ttk.Label(frm, text="Generateur").grid(column=0, row=0, sticky = "nsew") #Etiquette.
+    
+    tk.ttk.Button(frm, text="Quit", command=GenerateurTKinter.destroy).grid(column=1, row=3, sticky = "nsew") #Bouton pour détruire la fenêtre.
     
     ChoixLongueur = tk.Entry(frm, text="Longueur des mots") #On crée une entrée.
-    ChoixLongueur.grid(column=0, row=1) #Organise dans la grille.
+    
+    ChoixLongueur.grid(column=0, row=1, sticky = "nsew") #Organise dans la grille.
     
     NombreDeMots = tk.Entry(frm, text="Nombre de mots") #On crée une entrée.
-    NombreDeMots.grid(column=0, row=2) #Organise dans la grille.
     
-    tk.ttk.Label(frm, text="Longueur des mots").grid(column=1, row=1) #Etiquette.
+    NombreDeMots.grid(column=0, row=2, sticky = "nsew") #Organise dans la grille.
     
-    tk.ttk.Label(frm, text="Nombre de mots").grid(column=1, row=2) #Etiquette.
+    tk.ttk.Label(frm, text="Longueur des mots").grid(column=1, row=1, sticky = "nsew") #Etiquette.
     
-    tk.ttk.Button(frm, text="Valider", command=lambda: optionsGet()).grid(column=1, row=3) #Bouton lançant la génération.
+    tk.ttk.Label(frm, text="Nombre de mots").grid(column=1, row=2, sticky = "nsew") #Etiquette.
+    
+    tk.ttk.Button(frm, text="Valider", command=lambda: optionsGet()).grid(column=1, row=0, sticky = "nsew") #Bouton lançant la génération.
     
     Label_result = tk.ttk.Label(frm, text=f"Votre mot de passe est [?].") #Etiquette qui affiche le mot de passe.
-    Label_result.grid(column=0, row=3)
+    
+    Label_result.grid(column=0, row=3, sticky = "nsew")
     
     #BoucleBase
     GenerateurTKinter.mainloop()
@@ -170,38 +287,36 @@ def tkinterHome():
     
     S: type: None, None
     """
-    def FonctionnaliteGet():
-        """Renvoie vers les autres fenêtres avec le choix de l'utilisateur.
-        
-        E: type: None, None
-    
-        S: type: None, None
-        """
-        ChoixUtilisateur = int(ChoixUser.get()) #Récupère le choix.
-        
-        if ChoixUtilisateur == 0: #Condition, si l'utilisateur a choisi d'aller sur le test ou le générateur.
-            
-            print(tkinter()) #Test de force
-            
-        else:
-            
-            print(tkinter2()) #Générateur
             
     Home = tk.Tk() #Crée la fenêtre.
     
     frm = tk.ttk.Frame(Home, padding=10) #Crée un cadre.
+    
     frm.grid() #On organise le cadre avec une grille.
     
-    tk.ttk.Label(frm, text="Gestionnaire de mots de passe").grid(column=0, row=0) #Etiquette.
+    frm.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    tk.ttk.Label(frm, text="Test de force = 0, Generateur de mot de passe = 1").grid(column=1, row=1) #Etiquette
+    frm.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    tk.ttk.Button(frm, text="Quit", command=Home.destroy).grid(column=1, row=0) #Bouton pour détruire la fenêtre.
+    Home.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    ChoixUser = tk.Entry(frm, text="Fonctionnalite") #On crée une entrée pour choisir ou aller.
-    ChoixUser.grid(column=0, row=1) #Organise dans la grille.
+    Home.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    tk.ttk.Button(frm, text="Valider", command=lambda: FonctionnaliteGet()).grid(column=1, row=3) #Bouton pour se déplacer.
+    tk.ttk.Label(frm, text="Gestionnaire de mots de passe").grid(column=0, row=0, sticky = "nsew") #Etiquette.
+    
+    tk.ttk.Button(frm, text="Quit", command=Home.destroy).grid(column=1, row=2, sticky = "nsew") #Bouton pour détruire la fenêtre.
+    
+    global ChoixUserTest #On peut l'utiliser dans d'autres fonctions.
+    
+    global ChoixUserGenerateur #On peut l'utiliser dans d'autres fonctions.
+    
+    ChoixUserGenerateur = tk.ttk.Button(frm, text="Générateur", command = lambda: tkinter2()) #On crée une entrée pour choisir ou aller.
+    
+    ChoixUserTest = tk.ttk.Button(frm, text="Test de force", command = lambda: tkinter()) #On crée une entrée pour choisir ou aller.
+    
+    ChoixUserGenerateur.grid(column=0, row=1, sticky = "nsew") #Organise dans la grille.
+    
+    ChoixUserTest.grid(column=0, row=2, sticky = "nsew") #Organise dans la grille.
     
     #BoucleBase
     Home.mainloop()
@@ -220,6 +335,7 @@ def Generateur(Longueur, Nombre):
     """
 
     global GenerationMdp #On peut l'utiliser dans d'autres fonctions.
+    
     GenerationMdp = "" #Définir la variable.
     
     ListeFrancais = open('liste_francais.txt', encoding = "ISO-8859-1") #Ouvre la liste des mots francais.
@@ -232,9 +348,20 @@ def Generateur(Longueur, Nombre):
         PremiereLettre = random.choice(alphabet)
             
         #Fais une liste de tous les mots qui commencent par la premiere lettre puis selectionne un des mots aleatoirement
-        ListePremiereLettre = [mot for mot in ListeFrancais if mot.lower().startswith(PremiereLettre)]
+        
+        Nombre = int(Nombre) #On convertit le nombre en entier.
+        
+        global ListePremiereLettre #On peut l'utiliser dans d'autres fonctions.
+        
+        ListePremiereLettre = [mot for mot in ListeFrancais if mot.lower().startswith(PremiereLettre) and len(mot) == Longueur] #Liste des mots qui commencent par la première lettre et qui ont la longueur voulue.
+           
+        if len(ListePremiereLettre) != 0: #Si la liste n'est pas vide.
+         
+            MotSuivant = random.choice(ListePremiereLettre) # Le mot est decide aleatoirement parmi les mots selectionnes.
             
-        MotSuivant = random.choice(ListePremiereLettre) # Le mot est decide aleatoirement parmi les mots selectionnes.
+        else:
+            
+            messagebox.showerror("Erreur", "Il n'y a pas de mots de cette longueur commençant par cette lettre.") #Popup erreur.
             
         #Limite le nombre de caracteres pris dans le mot
         MotSuivant = MotSuivant[:Longueur]
@@ -242,7 +369,9 @@ def Generateur(Longueur, Nombre):
         print(MotSuivant) #Affiche le mot suivant.
             
         GenerationMdp = GenerationMdp + (MotSuivant) + "-" #Mot de passe.
-        
+    
+    GenerationMdp = GenerationMdp[:-1] #On enlève le dernier tiret.
+    
     return ("") # Ne retourne rien.
 
 
@@ -258,15 +387,20 @@ def TestForce(Mdp):
         _str_: _Donne la force du mot de passe._
     """
     global MdpUser
+    
     MdpUser = str(Mdp)
+    
     global Force
+    
     Force = 0
+    
     Fchiffres = 0
     
     for _ in MdpUser: #Rajoute 0.5 à force pour chaque caractère.
         Force += 0.5
         
     global Frequence
+    
     Frequence = Counter(MdpUser) #Crée un dictionnaire de couples caractères - fréquence des caractères.
         
     for lettre, count in Frequence.items(): #Pour touts les caractères du mot de passe.
@@ -275,24 +409,33 @@ def TestForce(Mdp):
             Force -= (count - 1) #Diminuer la force de 1 pour chaque caractère en trop dans la fréquence d'un caractère.
 
     for lettre in MdpUser: #Balaye touts les caractères du mot de passe.
+        
         if lettre in string.ascii_uppercase: #Si le caractère se trouve dans la chaîne de caractère de toutes les lettres majuscules.
+            
             Force += 1
             
         elif lettre in chiffres: #Si au moins un des caractères est un chiffre.
+            
             Fchiffres = 2
             
         elif lettre in punctuation: #Si au moins un des caractères fait partie de la collection non ordonnée des ponctuations.
+            
             Force += 1
             
     if len(MdpUser) < 5: #S'il y a moins de 5 caractères dans le mot de passe.
+        
         for _ in range(4 - len(MdpUser)): #Pour chaque caractère qui manque pour avoir 5 caractères.
+            
             Force -= 1
 
     Force += Fchiffres #Ajoute la valeur de Fchiffres à Force, s'il y a des chiffres on rajoute 2 sinon 0.
     
     if Force > 20: #Défini la note à la note maximale si le mot de passe a eu plus de 20 points.
+        
         Force = 20
+        
     elif Force < 0: #Si le mot de passe est en dessous de zéro la force du mot de passe prend la valeur de la note minimale, 0.
+        
         Force = 0
         
     return(Force) #Retourne la force.
@@ -309,6 +452,7 @@ def GrapheTest():
     S: type: None, None
     """
     CarX = sorted(set(MdpUser), key=MdpUser.index) #Liste de l'axe x. Cette liste est composée de caractères présents une fois seulement. On crée un set MdpUser pour supprimmer les caractères en double ou plus puis on crée une liste triée avec les caractères du set placés dans la liste en fonction de leut indice dans la chaîne de caractères initiale.
+    
     FreqY = [Frequence[lettre] for lettre in CarX] #Liste de l'axe y. Liste des fréquences du dictionnaire pour toutes les clés de ce même dictionnaire dans la liste triée Carx.
     
     plt.figure(figsize = (8, 8)) #Défini la taille du graphe.
@@ -334,7 +478,7 @@ def GrapheTest():
     plt.savefig(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Sauvegarde du graphique.
       
     
-    #On ouvre l'image puis on la converti a un format que tkinter comprend mais si ca ne fonctionne pas on retourne un message d'erreur. Cela n'est utile que pour mieux avoir conscience d'ou peut se situer une erreur.
+    #On ouvre l'image puis on la convertit a un format que tkinter comprend mais si ca ne fonctionne pas on retourne un message d'erreur. Cela n'est utile que pour mieux avoir conscience d'ou peut se situer une erreur.
     try:
         
         image = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Ouvre l'image.
@@ -345,7 +489,7 @@ def GrapheTest():
         
         return("Erreur") # Met fin a la fonction.
     
-    photo = ImageTk.PhotoImage(image) #Converti l'image sous un format que tkinter comprend.
+    photo = ImageTk.PhotoImage(image) #Convertit l'image sous un format que tkinter comprend.
     
     afficher_graph_tkinter(photo) #On lance la fonction avec l'image en arguments.
     
@@ -356,10 +500,13 @@ def afficher_graph_tkinter(photo):
         photo (_png_): _L'image du graphique._
     """
     graph = tk.Toplevel() #On crée une fenetre secondaire.
+    
     graph.title("Graphique") #Titre
     
     label = tk.Label(graph, image = photo) #Une étiquette.
+    
     label.config(image = photo) #On configure l'étiquette en concervant l'image pour éviter que le garbage collector de python ne la supprime.
+    
     label.grid(column = 0, row = 0) #On organise l'étiquette.
     
     tk.ttk.Button(graph, command = graph.destroy, text = "Quit").grid(column = 1, row = 1) #Bouton pour quitter.
