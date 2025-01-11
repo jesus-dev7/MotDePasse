@@ -51,11 +51,11 @@ def TkinterCookies():
     
     PageCookies.columnconfigure(0, weight=1) #Les widgets vont au centre de la fenêtre.
       
-    tk.Label(frm, text = "En appuyant sur le bouton 'Accepter ', vous acceptez", bg = "Orange").grid(column = 0, row = 0, sticky = "w") #Affiche les cookies.
+    tk.Label(frm, text = "En appuyant sur le bouton 'Accepter ', vous acceptez", bg = "Black", fg = "Green").grid(column = 0, row = 0, sticky = "w") #Affiche les cookies.
     
-    tk.Label(frm, text = "l'utilisation des cookies et acceptez de vendre vos informations ", bg = "Orange").grid(column = 0, row = 1, sticky = "w") #Affiche les cookies.
+    tk.Label(frm, text = "l'utilisation des cookies et acceptez de vendre vos informations ", bg = "Black", fg = "Green").grid(column = 0, row = 1, sticky = "w") #Affiche les cookies.
     
-    tk.Label(frm, text = "personnelles à des gens qui se feront de l'argent sur votre dos.", bg = "Orange").grid(column = 0, row = 2, sticky = "w") #Affiche les cookies.
+    tk.Label(frm, text = "personnelles à des gens qui se feront de l'argent sur votre dos.", bg = "Black", fg = "Green").grid(column = 0, row = 2, sticky = "w") #Affiche les cookies.
     
     tk.Button(frm, text="Refuser", command = PageCookies.destroy, bg = "Red").grid(column=1, row=3, sticky = "w") #Bouton pour détruire la fenêtre.
     
@@ -63,7 +63,7 @@ def TkinterCookies():
     
     global UserCookies_entry #On peut l'utiliser dans d'autres fonctions.
     
-    tk.Label(frm, text="Votre nom d'utilisateur (Ne pas mettre d'accent)", bg = "Orange").grid(column=2, row=2, sticky = "nsew") #Etiquette.
+    tk.Label(frm, text="Votre nom d'utilisateur (Ne pas mettre d'accent)", bg = "Green", bd = 4, relief = "sunken").grid(column=2, row=2, sticky = "nsew") #Etiquette.
     
     UserCookies_entry = tk.Entry(frm, bg = "Lightgreen")
     
@@ -193,7 +193,7 @@ def tkinterTest():
             OuvreOeuil()
             
         else:
-            mdp_entry.config(show = "〠")
+            mdp_entry.config(show = "©")
             
             NombreAffichage = 0
             
@@ -214,17 +214,17 @@ def tkinterTest():
     #Convertir la forme de la fonction
     validate_command = root.register(validation) #On passe la commande de vérification sous la bonne forme pour que tkinter puisse l'utiliser.
     
-    tk.Label(frm, text="Force du mot de passe", bg = "Orange").grid(column=0, row=0, sticky = "nsew")
+    tk.Label(frm, text="Force du mot de passe", bg = "Orange", relief = "sunken", bd = 4).grid(column=0, row=0, sticky = "nsew") #Etiquette.
     
-    tk.Button(frm, text="Quit", command=root.destroy, bg = "red").grid(column=1, row=2, sticky = "nsew") #Bouton pour détruire la fenêtre.
+    tk.Button(frm, text="Quit", command=root.destroy, bg = "red", width = 5).grid(column=1, row=2) #Bouton pour détruire la fenêtre.
     
-    mdp_entry = tk.Entry(frm, text="Mot de passe.", show = "⚠", validate = 'key', validatecommand = (validate_command, '%P'), bg = "Lightgreen") #On crée l'entrée.
+    mdp_entry = tk.Entry(frm, text="Mot de passe.", show = "⚠", validate = 'key', validatecommand = (validate_command, '%P'), bg = "Lightgreen", relief = "ridge", bd = 6, font = ("bold")) #On crée l'entrée.
     
     mdp_entry.grid(column=0, row=1, sticky = "nsew") #Place l'entrée dans l'endroit de la grille voulu.
     
-    tk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet(), bg = "Blue").grid(column=1, row=0) #Bouton pour effectuer le test.
+    tk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=0) #Bouton pour effectuer le test.
     
-    labForce = tk.Label(frm, text=f"Votre force de mot de passe est de [?]/20.", bg = "Orange")#Affiche une étiquette sur laquelle est donnée la force du mot de passe.
+    labForce = tk.Label(frm, text=f"Votre force de mot de passe est de [?]/20.", bg = "Orange", relief = "sunken", bd = 4)#Affiche une étiquette sur laquelle est donnée la force du mot de passe.
     
     labForce.grid(column=0, row=2, sticky = "nsew") # Organise sur la grille.
     
@@ -232,7 +232,7 @@ def tkinterTest():
     
     imageOuvert = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilOuvert.jpg") #Ouvre l'image.
     
-    imageOuvert = imageOuvert.resize((50, 25)) #Redimensionne l'image.
+    imageOuvert = imageOuvert.resize((30, 22)) #Redimensionne l'image.
     
     imageOuvert = ImageTk.PhotoImage(imageOuvert) #Convertit l'image sous un format que tkinter comprend.
     
@@ -240,11 +240,11 @@ def tkinterTest():
     
     imageOeuilFerme = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilFerme.jpg") #Ouvre l'image.
     
-    imageOeuilFerme = imageOeuilFerme.resize((50, 25)) #Redimensionne l'image.
+    imageOeuilFerme = imageOeuilFerme.resize((30, 22)) #Redimensionne l'image.
     
     imageOeuilFerme = ImageTk.PhotoImage(imageOeuilFerme) #Convertit l'image sous un format que tkinter comprend.
     
-    Bouton_oeuil = tk.Button(frm, image = imageOeuilFerme, command=lambda: AfficheMDP(), bg = "Blue")#Bouton pour afficher le mot de passe.
+    Bouton_oeuil = tk.Button(frm, image = imageOeuilFerme, command=lambda: AfficheMDP(), bg = "Blue", relief = "ridge", bd = 4, width = 20, height = 12)#Bouton pour afficher le mot de passe.
     
     Bouton_oeuil.image = imageOeuilFerme #On conserve l'image pour éviter que le garbage collector de python ne la supprime.
     
@@ -313,27 +313,27 @@ def tkinterGenerateur():
     
     GenerateurTKinter.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    tk.Label(frm_, text="Generateur", bg = "Orange").grid(column=0, row=0, sticky = "nsew") #Etiquette.
+    tk.Label(frm_, text="Generateur", bg = "Orange", relief = "sunken", bd = 4).grid(column=0, row=0, sticky = "nsew") #Etiquette.
     
     UnBoutonDeDestruction = tk.Button(frm_, text="Quit", command=GenerateurTKinter.destroy, bg = "red") #Bouton pour détruire la fenêtre.
     
     UnBoutonDeDestruction.grid(column=1, row=3, sticky = "nsew") #Bouton pour détruire la fenêtre.
     
-    ChoixLongueur = tk.Entry(frm_, text="Longueur des mots", bg = "Lightgreen") #On crée une entrée.
+    ChoixLongueur = tk.Entry(frm_, text="Longueur des mots", bg = "Lightgreen", fg = "red", relief = "ridge", bd = 6, font = ("bold")) #On crée une entrée.
     
     ChoixLongueur.grid(column=0, row=1, sticky = "nsew") #Organise dans la grille.
     
-    NombreDeMots = tk.Entry(frm_, text="Nombre de mots", bg = "Lightgreen") #On crée une entrée.
+    NombreDeMots = tk.Entry(frm_, text="Nombre de mots", bg = "Lightgreen", fg = "red", relief = "ridge", bd = 6, font = ("bold")) #On crée une entrée.
     
     NombreDeMots.grid(column=0, row=2, sticky = "nsew") #Organise dans la grille.
     
-    tk.Label(frm_, text="Longueur des mots", bg = "Orange").grid(column=1, row=1, sticky = "nsew") #Etiquette.
+    tk.Label(frm_, text="Longueur des mots", bg = "Orange", relief = "ridge", bd = 4).grid(column=1, row=1, sticky = "ew") #Etiquette.
     
-    tk.Label(frm_, text="Nombre de mots", bg = "Orange").grid(column=1, row=2, sticky = "nsew") #Etiquette.
+    tk.Label(frm_, text="Nombre de mots", bg = "Orange", relief = "ridge", bd = 4).grid(column=1, row=2, sticky = "ew") #Etiquette.
     
-    tk.Button(frm_, text="Valider", command=lambda: optionsGet(), bg = "Blue").grid(column=1, row=0, sticky = "nsew") #Bouton lançant la génération.
+    tk.Button(frm_, text="Valider", command=lambda: optionsGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=0, sticky = "nsew") #Bouton lançant la génération.
     
-    Label_result = tk.Label(frm_, text=f"Votre mot de passe est [?].", bg = "Orange") #Etiquette qui affiche le mot de passe.
+    Label_result = tk.Label(frm_, text=f"Votre mot de passe est [?].", bg = "Orange", relief = "sunken", bd = 4) #Etiquette qui affiche le mot de passe.
     
     Label_result.grid(column=0, row=3, sticky = "nsew")
     
@@ -365,7 +365,7 @@ def tkinterHome():
     
     Home.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    LabelGest = tk.Label(frm, text="Gestionnaire de mots de passe", bg = "Orange") #Une étiquette.
+    LabelGest = tk.Label(frm, text="Gestionnaire de mots de passe", bg = "Orange", relief = "sunken") #Une étiquette.
     
     LabelGest.grid(column=0, row=0, sticky = "nsew") #Etiquette.
     
@@ -377,9 +377,9 @@ def tkinterHome():
     
     global ChoixUserGenerateur #On peut l'utiliser dans d'autres fonctions.
     
-    ChoixUserGenerateur = tk.Button(frm, text="Générateur", command = lambda: tkinterGenerateur(), bg = "Blue") #On crée une entrée pour choisir ou aller.
+    ChoixUserGenerateur = tk.Button(frm, text="Générateur", command = lambda: tkinterGenerateur(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #On crée une entrée pour choisir ou aller.
     
-    ChoixUserTest = tk.Button(frm, text="Test de force", command = lambda: tkinterTest(), bg = "Blue") #On crée une entrée pour choisir ou aller.
+    ChoixUserTest = tk.Button(frm, text="Test de force", command = lambda: tkinterTest(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #On crée une entrée pour choisir ou aller.
     
     ChoixUserGenerateur.grid(column=0, row=1, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
     
@@ -428,7 +428,7 @@ def Generateur(Longueur, Nombre):
             
         else:
             
-            messagebox.showerror("Erreur", "Il n'y a pas assez de mots de cette longueur commençant par cette lettre.") #Popup erreur.
+            messagebox.showerror("Erreur", "Il n'y a pas assez de mots de cette longueur commençant par cette lettre. Veuillez réessayer ou changer les paramètres.") #Popup erreur.
             
         print(MotSuivant) #Affiche le mot suivant.
             
@@ -563,17 +563,21 @@ def afficher_graph_tkinter(photo):
     Args:
         photo (_png_): _L'image du graphique._
     """
-    graph = tk.Toplevel() #On crée une fenetre secondaire.
+    graph = tk.Toplevel(bg = "Black") #On crée une fenetre secondaire.
     
     graph.title("Graphique") #Titre
+
+    graph.rowconfigure(0, weight=1) #On configure la ligne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
-    label = tk.Label(graph, image = photo) #Une étiquette.
+    graph.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
+    
+    label = tk.Label(graph, image = photo, bg = "Orange", relief = "ridge", bd = 10) #Une étiquette.
     
     label.config(image = photo) #On configure l'étiquette en concervant l'image pour éviter que le garbage collector de python ne la supprime.
     
     label.grid(column = 0, row = 0) #On organise l'étiquette.
     
-    tk.ttk.Button(graph, command = graph.destroy, text = "Quit").grid(column = 1, row = 1) #Bouton pour quitter.
+    tk.Button(graph, command = graph.destroy, text = "Quit", bg = "red", width = 5, height = 1, relief = "ridge", bd = 4).grid(column = 1, row = 1) #Bouton pour quitter.
     
     
     
