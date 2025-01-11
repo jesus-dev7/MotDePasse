@@ -201,7 +201,7 @@ def tkinterTest():
             
         return("")
 
-    root = tk.Toplevel() #Crée une fenêtre secondaire avec Tkinter.
+    root = tk.Tk() #Crée une fenêtre avec Tkinter.
     
     frm = tk.Frame(root, bd = 5, relief = "ridge", bg = "Black") #Crée un cadre.
     
