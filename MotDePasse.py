@@ -436,7 +436,7 @@ def Generateur(Longueur, Nombre):
     
     GenerationMdp = GenerationMdp[:-1] #On enlève le dernier tiret.
     
-    return ("") # Ne retourne rien.
+    return (GenerationMdp) #Retourne le mot de passe.
 
 
 
