@@ -17,6 +17,8 @@ from tkinter import Tk, Label
 
 from PIL import Image, ImageTk
 
+import customtkinter
+
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
 
@@ -348,7 +350,7 @@ def tkinterHome():
     
     S: type: None, None
     """
-         
+    
     print(TkinterCookies()) #Affiche les cookies.
             
     Home = tk.Tk() #Crée la fenêtre.
@@ -385,9 +387,92 @@ def tkinterHome():
     
     ChoixUserTest.grid(column=0, row=2, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
     
+    TradBtn = tk.Button(frm, text="Traducteur", command = lambda: TkinterTrad(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic"))
+    
+    TradBtn.grid(column=0, row=3, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
+    
     #BoucleBase
     Home.mainloop()
 
+def TkinterTrad():
+    
+    def EntryGetToText():
+        
+        global text
+        
+        if Entry.get("1.0", "end-1c") != "":
+        
+            text = Entry.get("1.0", "end-1c")
+        
+        Label.configure(text = "'" + AskToText() + "'")
+    
+    def EntryGetToAsk():
+        
+        global text
+        
+        if Entry.get("1.0", "end-1c") != "":
+        
+            text = Entry.get("1.0", "end-1c")
+        
+        Label.configure(text = TextToAsk())
+    
+    main = customtkinter.CTk() #Crée une fenêtre.
+    
+    main.title("Traducteur") #Titre de la fenêtre.
+    
+    main.resizable(False, False) #On ne peut pas redimensionner la fenêtre.
+    
+    customtkinter.CTkLabel(main, text = "Traducteur").grid(column = 1, row = 0, pady = (10, 10), padx = (10, 10)) #Etiquette.
+    
+    Entry = customtkinter.CTkTextbox(main, width = 200, height = 10) #Zone de texte.
+    
+    Entry.grid(column = 1, row = 1, pady = (10, 10), padx = (10, 10))
+    
+    customtkinter.CTkButton(main, text = "ASCII à texte", command = lambda: EntryGetToText()).grid(column = 1, row = 2, pady = (10, 10), padx = (10, 10)) #Bouton pour traduire.
+    
+    customtkinter.CTkButton(main, text = "Texte à ASCII", command = lambda: EntryGetToAsk()).grid(column = 1, row = 3, pady = (10, 10), padx = (10, 10)) #Bouton pour traduire.
+    
+    customtkinter.CTkButton(main, text = "Quit", command = main.destroy).grid(column = 1, row = 4, pady = (10, 10), padx = (10, 10)) #Bouton pour traduire.
+    
+    Label = customtkinter.CTkLabel(main, text = "") #Etiquette.
+    
+    Label.grid(column = 4, row = 0, pady = (10, 10), padx = (10, 10))
+    
+    Label = customtkinter.CTkLabel(main, text = "Separer chaque code ASCII par 47") #Etiquette.
+    
+    Label.grid(column = 3, row = 1, pady = (10, 10), padx = (10, 10))
+    
+    main.mainloop()
+    
+def TextToAsk():
+    
+    ListeLettresAsk = [ord(lettre) for lettre in text]
+    
+    return(ListeLettresAsk)
+
+def AskToText():
+    
+    Str = ""
+    
+    global text
+    
+    text = str(text)
+    
+    DiviseurAsk = ord("/")
+    
+    DiviseurStr = str(DiviseurAsk)
+    
+    NewList = text.split(DiviseurStr)
+    
+    NewList = [item for item in NewList if item != "" and item != " "]
+    
+    for element in range(len(NewList)):
+        NewList[element] = int(NewList[element])
+    
+    for Ask in NewList:
+        Str += chr(Ask)
+        
+    return Str
 
 #Generateur de mot de passe
 def Generateur(Longueur, Nombre):
