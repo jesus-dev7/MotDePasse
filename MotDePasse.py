@@ -19,10 +19,10 @@ from PIL import Image, ImageTk
 
 import customtkinter
 
+import speech_recognition as sr
+
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
-
-NombreDeMots = 0
 
 ListePremiereLettre = []
 
@@ -319,7 +319,11 @@ def tkinterGenerateur():
     
     UnBoutonDeDestruction = tk.Button(frm_, text="Quit", command=GenerateurTKinter.destroy, bg = "red") #Bouton pour détruire la fenêtre.
     
-    UnBoutonDeDestruction.grid(column=1, row=3, sticky = "nsew") #Bouton pour détruire la fenêtre.
+    UnBoutonDeDestruction.grid(column=0, row=4, sticky = "nsew") #Bouton pour détruire la fenêtre.
+    
+    global ChoixLongueur #On peut l'utiliser dans d'autres fonctions.
+    
+    global NombreDeMots #On peut l'utiliser dans d'autres fonctions.
     
     ChoixLongueur = tk.Entry(frm_, text="Longueur des mots", bg = "Lightgreen", fg = "red", relief = "ridge", bd = 6, font = ("bold")) #On crée une entrée.
     
@@ -338,6 +342,10 @@ def tkinterGenerateur():
     Label_result = tk.Label(frm_, text=f"Votre mot de passe est [?].", bg = "Orange", relief = "sunken", bd = 4) #Etiquette qui affiche le mot de passe.
     
     Label_result.grid(column=0, row=3, sticky = "nsew")
+    
+    tk.Button(frm_, text="Vocal", command=lambda: GenerationVocale(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=3, sticky = "nsew") #Bouton lançant la génération.
+    
+    tk.Button(frm_, text="Vocal Champ 2", command=lambda: GenerationVocale2(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=4, sticky = "nsew") #Bouton lançant la génération.
     
     #BoucleBase
     GenerateurTKinter.mainloop()
@@ -443,6 +451,154 @@ def TkinterTrad():
     Label.grid(column = 3, row = 1, pady = (10, 10), padx = (10, 10))
     
     main.mainloop()
+    
+def GenerationVocale():
+    
+    def listen_convert():
+        
+        reconnaitre = sr.Recognizer() #Objet qui detecte et reconnait la parole.
+        
+        mic = sr.Microphone()
+        
+        with mic as source:
+            
+            print("Parlez...")
+            
+            reconnaitre.adjust_for_ambient_noise(source)
+            
+            audio = reconnaitre.listen(source)
+            
+        try:
+            
+            global paroles_crypt
+            
+            global paroles
+            
+            paroles = ""
+            
+            paroles_crypt = ""
+            
+            print("Reconnaissance vocale en cours...")
+
+            paroles = reconnaitre.recognize_google(audio, language = "fr-FR")
+            
+            ChoixLongueur.insert(tk.END, str(paroles))
+            
+            print(f"paroles detectees {paroles}")
+            
+            return paroles
+        
+        except sr.UnknownValueError:
+            
+            print("Google speech recognition n'a pas pu comprendre l'audio.")
+            
+            return("")
+        
+        except sr.RequestError:
+            
+            print("Impossible d'obtenir une reponse de google speech recognition.")
+            
+            return("")
+        
+    def ecrire_dans_le_fichier():
+        
+        if paroles:
+            
+            paroles_crypt = ""
+            
+            for lettre in paroles:
+                
+                paroles_crypt += str(bin(ord(lettre)))
+                
+            print(paroles_crypt)
+            
+            with open(r"C:\Users\anneg\Desktop\MotDePasse\Données_Détection_Vocale.txt", "a", encoding = "UTF-8") as file:
+                
+                file.write(paroles_crypt + "\n")
+                
+            print("Texte crypte ecrit dans le fichier.")
+        
+        else:
+            
+            print("Rien a ecrire")
+    
+    listen_convert()
+    
+    ecrire_dans_le_fichier()
+    
+def GenerationVocale2():
+    
+    def listen_convert2():
+        
+        reconnaitre2 = sr.Recognizer() #Objet qui detecte et reconnait la parole.
+        
+        mic2 = sr.Microphone()
+        
+        with mic2 as source:
+            
+            print("Parlez...")
+            
+            reconnaitre2.adjust_for_ambient_noise(source)
+            
+            audio2 = reconnaitre2.listen(source)
+            
+        try:
+            
+            global paroles_crypt2
+            
+            global paroles2
+            
+            paroles2 = ""
+            
+            paroles_crypt2 = ""
+            
+            print("Reconnaissance vocale en cours...")
+
+            paroles2 = reconnaitre2.recognize_google(audio2, language = "fr-FR")
+            
+            NombreDeMots.insert(tk.END, str(paroles2))
+            
+            print(f"paroles detectees {paroles2}")
+            
+            return paroles2
+        
+        except sr.UnknownValueError:
+            
+            print("Google speech recognition n'a pas pu comprendre l'audio.")
+            
+            return("")
+        
+        except sr.RequestError:
+            
+            print("Impossible d'obtenir une reponse de google speech recognition.")
+            
+            return("")
+        
+    def ecrire_dans_le_fichier2():
+        
+        if paroles2:
+            
+            paroles_crypt2 = ""
+            
+            for lettre___ in paroles2:
+                
+                paroles_crypt2 += str(bin(ord(lettre___)))
+                
+            print(paroles_crypt2)
+            
+            with open(r"C:\Users\anneg\Desktop\MotDePasse\Données_Détection_Vocale.txt", "a", encoding = "UTF-8") as file:
+                
+                file.write(paroles_crypt2 + "\n")
+                
+            print("Texte crypte ecrit dans le fichier.")
+        
+        else:
+            
+            print("Rien a ecrire")
+    
+    listen_convert2()
+    
+    ecrire_dans_le_fichier2()
     
 def TextToAsk():
     
