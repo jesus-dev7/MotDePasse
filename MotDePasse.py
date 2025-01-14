@@ -19,14 +19,6 @@ from PIL import Image, ImageTk
 
 import customtkinter
 
-from keras import *
-
-import tensorflow as tf
-
-import numpy as np
-
-from tensorflow.keras.optimizers import Adam
-
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
 
@@ -381,7 +373,7 @@ def tkinterHome():
     
     Bouton_ = tk.Button(frm, text="Quit", command=Home.destroy, bg = "red") #Bouton pour détruire la
     
-    Bouton_.grid(column=1, row=4, sticky = "nsew") #Bouton pour détruire la fenêtre.
+    Bouton_.grid(column=1, row=3, sticky = "nsew") #Bouton pour détruire la fenêtre.
     
     global ChoixUserTest #On peut l'utiliser dans d'autres fonctions.
     
@@ -398,10 +390,6 @@ def tkinterHome():
     TradBtn = tk.Button(frm, text="Traducteur", command = lambda: TkinterTrad(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic"))
     
     TradBtn.grid(column=0, row=3, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
-    
-    UnBouton_ = tk.Button(frm, text="IA génératrice", command = lambda: TkinterIAGenerateur(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic"))
-    
-    UnBouton_.grid(column=0, row=4, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
     
     #BoucleBase
     Home.mainloop()
@@ -485,116 +473,6 @@ def AskToText():
         Str += chr(Ask)
         
     return Str
-
-def TkinterIAGenerateur():
-    
-    fenster = customtkinter.CTk() #Crée une fenêtre.
-    
-    fenster.title("IA de génération de mot de passe.") #Titre de la fenêtre.
-    
-    fenster.resizable(False, False) #On ne peut pas redimensionner la fenêtre.
-    
-    customtkinter.CTkLabel(fenster, text = "IA de génération de mot de passe.").grid(column = 1, row = 0, pady = (10, 10), padx = (10, 10)) #Etiquette.
-    
-    customtkinter.CTkLabel(fenster, text = "Longueur du mot").grid(column = 0, row = 1, pady = (10, 10), padx = (10, 10), sticky = "e") #Etiquette.
-    
-    global Longueur_ #On peut l'utiliser dans d'autres fonctions.
-    
-    Longueur_ = customtkinter.CTkEntry(fenster, width = 200) #Zone de texte.
-    
-    Longueur_.grid(column = 1, row = 1, pady = (10, 10), padx = (10, 10))
-    
-    customtkinter.CTkButton(fenster, text = "Valider", command = lambda: IAGenerateur()).grid(column = 1, row = 2, pady = (10, 10), padx = (10, 10)) #Bouton pour traduire.
-    
-    customtkinter.CTkButton(fenster, text = "Quit", command = fenster.destroy).grid(column = 1, row = 4, pady = (10, 10), padx = (10, 10)) #Bouton pour traduire.
-    
-    global LblRes #On peut l'utiliser dans d'autres fonctions.
-    
-    LblRes = customtkinter.CTkLabel(fenster, text = "")
-    
-    LblRes.grid(column = 0, row = 3, padx = (10, 10)) #Etiquette.
-    
-    customtkinter.CTkLabel(fenster, text = "Veuillez considérer que l'IA peut faire des erreurs").grid(column = 0, row = 2, pady = (10, 10), padx = (10, 10)) #Etiquette.
-    
-    fenster.mainloop()
-    
-def IAGenerateur():
-    
-    _Longueur_ = int(Longueur_.get())
-    
-    def AskToText(ListeAskInt):
-    
-        ListeAskInt = str(ListeAskInt)
-    
-        Chr = ""
-    
-        for Ask in range(len(ListeAskInt)):
-        
-            try:
-        
-                NewChr = int(ListeAskInt[Ask : Ask + 2])
-            
-                Chr += chr(NewChr)
-        
-            except:
-            
-                print(f"Erreur de conversion pour l'élément: {ListeAskInt[Ask]}")
-        
-                continue
-            
-        return Chr
-
-    model = Sequential()
-    
-    model.add(layers.Dense(units = 64, input_shape = [1]))
-    
-    model.add(layers.Dense(units = 128))
-    
-    model.add(layers.Dense(units = 1))
-
-    entree = [3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5]
-    
-    sortie = [42479, 23266, 45176, 16845, 35784, 17571, 15684684, 48956132, 48987153, 18945654, 17845132, 78945687, 16549875485, 48651235156, 47895563369]
-
-    entree = np.array(entree)
-    
-    entree = entree.reshape(-1, 1)
-    
-    sortie = np.array(sortie)
-
-    entree_tensor = tf.constant(entree, dtype = tf.float32)
-    
-    sortie_tensor = tf.constant(sortie, dtype = tf.float32)
-
-    model.compile(loss="mean_squared_error", optimizer = "adam")
-    
-    model.fit(x = entree_tensor, y = sortie_tensor, epochs = 200)
-
-    for _ in range(1):
-        
-        Resrv = _Longueur_
-        
-        _Longueur_ = int(Longueur_.get())
-        
-        _Longueur_ = np.array(_Longueur_)
-        
-        _Longueur_ = _Longueur_.reshape(-1, 1)
-        
-        _Longueur_ = tf.constant(_Longueur_, dtype = tf.float32)
-    
-        global ModPred #On peut l'utiliser dans d'autres fonctions.
-    
-        ModPred = str(model.predict(np.array([_Longueur_])))
-    
-        print("Prediction:" + ModPred)
-    
-        res = AskToText(ModPred)
-     
-        Res_ = res[:Resrv]
-        
-        global LblRes #On peut l'utiliser dans d'autres fonctions.
-        
-        LblRes.configure(text = f"'{Res_}'")
         
 #Generateur de mot de passe
 def Generateur(Longueur, Nombre):
