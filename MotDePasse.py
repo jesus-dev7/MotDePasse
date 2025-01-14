@@ -676,6 +676,29 @@ def GenerationVocale3():
     
     listen_convert3()
     
+    def CaracSpeciaux():
+        
+        text = mdp_entry.get()
+        
+        print(f"TEXT : {text}")
+        
+        Remplacements = {"Inter" : "?",
+                         "espère" : "&",
+                         "base" : "@",
+                         "Crush" : "["}
+        
+        for mot, caractere in Remplacements.items():
+            
+            text = text.replace(mot, caractere)
+            
+        print(f"TEXT MODIF: {text}")
+            
+        mdp_entry.delete(0, tk.END)
+        
+        mdp_entry.insert(0, text)
+            
+    CaracSpeciaux()
+    
     ecrire_dans_le_fichier3()
     
 def TextToAsk():
