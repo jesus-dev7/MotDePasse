@@ -218,7 +218,9 @@ def tkinterTest():
     
     tk.Label(frm, text="Force du mot de passe", bg = "Orange", relief = "sunken", bd = 4).grid(column=0, row=0, sticky = "nsew") #Etiquette.
     
-    tk.Button(frm, text="Quit", command=root.destroy, bg = "red", width = 5).grid(column=1, row=2) #Bouton pour détruire la fenêtre.
+    tk.Button(frm, text="Quit", command=root.destroy, bg = "red", width = 5).grid(column=1, row=3) #Bouton pour détruire la fenêtre.
+    
+    global mdp_entry #On peut l'utiliser dans d'autres fonctions.
     
     mdp_entry = tk.Entry(frm, text="Mot de passe.", show = "⚠", validate = 'key', validatecommand = (validate_command, '%P'), bg = "Lightgreen", relief = "ridge", bd = 6, font = ("bold")) #On crée l'entrée.
     
@@ -251,6 +253,8 @@ def tkinterTest():
     Bouton_oeuil.image = imageOeuilFerme #On conserve l'image pour éviter que le garbage collector de python ne la supprime.
     
     Bouton_oeuil.grid(column=1, row=1, sticky = "w") #Organise sur la grille.
+    
+    tk.Button(frm, text="Vocal",command=lambda: GenerationVocale3(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=0, row=3, sticky = "nsew") #Bouton pour effectuer le test.
     
     def OuvreOeuil():
         """Ouvre l'oeil.
@@ -599,6 +603,80 @@ def GenerationVocale2():
     listen_convert2()
     
     ecrire_dans_le_fichier2()
+    
+def GenerationVocale3():
+    
+    def listen_convert3():
+        
+        reconnaitre3 = sr.Recognizer() #Objet qui detecte et reconnait la parole.
+        
+        mic3 = sr.Microphone()
+        
+        with mic3 as source:
+            
+            print("Parlez...")
+            
+            reconnaitre3.adjust_for_ambient_noise(source)
+            
+            audio3 = reconnaitre3.listen(source)
+            
+        try:
+            
+            global paroles_crypt3
+            
+            global paroles3
+            
+            paroles3 = ""
+            
+            paroles_crypt3 = ""
+            
+            print("Reconnaissance vocale en cours...")
+
+            paroles3 = reconnaitre3.recognize_google(audio3, language = "fr-FR")
+            
+            mdp_entry.insert(tk.END, str(paroles3))
+            
+            print(f"paroles detectees {paroles3}")
+            
+            return paroles3
+        
+        except sr.UnknownValueError:
+            
+            print("Google speech recognition n'a pas pu comprendre l'audio.")
+            
+            return("")
+        
+        except sr.RequestError:
+            
+            print("Impossible d'obtenir une reponse de google speech recognition.")
+            
+            return("")
+        
+    def ecrire_dans_le_fichier3():
+        
+        if paroles3:
+            
+            paroles_crypt3 = ""
+            
+            for _lettre___ in paroles3:
+                
+                paroles_crypt3 += str(bin(ord(_lettre___)))
+                
+            print(paroles_crypt3)
+            
+            with open(r"C:\Users\anneg\Desktop\MotDePasse\Données_Détection_Vocale.txt", "a", encoding = "UTF-8") as file:
+                
+                file.write(paroles_crypt3 + "\n")
+                
+            print("Texte crypte ecrit dans le fichier.")
+        
+        else:
+            
+            print("Rien a ecrire")
+    
+    listen_convert3()
+    
+    ecrire_dans_le_fichier3()
     
 def TextToAsk():
     
