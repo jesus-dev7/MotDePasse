@@ -1,0 +1,35 @@
+1.Choix: Tester la force d'un mdp OU Generer un mdp. TERMINE
+
+2.Generateur: a.Nombre de mots choisi b.Longueur des mots choisie c. "-" entre chaque mot d.mots prononcables. TERMINE
+
+3.Generation du mdp: a.Une lettre aleatoire dans l'abc b.mot aleatoire parmi les mots qui commencent par la lettre choisie aleatoirement (dans le fichier texte fourni). TERMINE
+
+4.Test de force: a.Teste un mdp PRONONCABLE propose par l'utilisateur b.Donne une note /20 (criteres donnes par ce lien: https://www.ssi.
+
+gouv.fr/administration/precautions-elementaires/calculer-la-force-dun-mot-de-passe/). TERMINE
+
+5.Interface graphique Tkinter: Creer des fenetres. TERMINE
+
+6.Verification systematique: Verification durant la saisie du mdp. TERMINE
+
+7.Graphe: Frequence des caracteres utilises dans le mdp. TERMINE
+
+8.Copie papier: Expliquer les methodes detaillees utilisees pour toutes les fonctionnalites.
+
+9.Faire un traducteur Text - ASCII, ASCII - Text. TERMINE
+
+10.Faire un mode pour pouvoir ecrire avec la voix et qui enregistre les paroles dans un historique de facon cryptee. TERMINE
+
+11.Faire un mode qui lit le texte sur la GUI.
+
+12.Faire un reseau neuronal qui donne le pourcentage d'originalite du mot de passe par rapport a la moyenne des mots de passe.
+
+13.Faire une liste qui s'affiche si le mot de passe rentré est trop faible qui propose des versions ameliorees du mot de passe. TERMINE
+
+14.Faire des tests unitaires qui couvrent tout le code pour une fiabilitee optimale.
+
+15.Faire des cookies et un historique de qui les a accepte. TERMINE
+
+16.Faire un masque pour le mot de passe dans le test de force avec un bouton pour pouvoir reveler et cacher le texte. TERMINE
+
+17.Rendre toutes les fonctionnalites utilisables sur l'interface graphique.

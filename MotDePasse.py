@@ -21,8 +21,12 @@ import customtkinter
 
 import speech_recognition as sr
 
+import pyttsx3
+
 #Definition variables
 alphabet = string.ascii_lowercase #Les caractères en minuscule.
+
+AlphabetMaj = string.ascii_uppercase #Les caractères en majuscule.
 
 ListePremiereLettre = []
 
@@ -33,13 +37,6 @@ set(punctuation) #Liste des caractères spéciaux.
 chiffres = "0123456789" #Définition des chiffres sous forme d'une chaîne de caractères.
 
 set(chiffres) #Liste des chiffres.
-
-
-
-
-
-
-
 
 def TkinterCookies():
     
@@ -95,13 +92,6 @@ def TkinterCookies():
             
         PageCookies.destroy() #Détruit la fenêtre.
             
-
-
-
-
-
-
-
 def tkinterTest():
     """Fenêtre tkinter pour le test de force
 
@@ -143,7 +133,6 @@ def tkinterTest():
         
         return True #Retourne True.
 
-
     def TroisErreurs():
         """Fonction qui affcihe une erreur et qui efface l'entrée.
         
@@ -155,7 +144,6 @@ def tkinterTest():
         mdp_entry.delete(0, tk.END) #Supprime le contenu de l'entrée.
         mdp_entry.config(validate = 'key', validatecommand = (validate_command, '%P')) #Redéfini l'argument permétant d'appliquer la vérification à chaque enfoncement de touche dans l'entry et la commande de vérification.
     
-
     def mdpGet():
         """Affiche la force du mot de passe.
         
@@ -166,9 +154,13 @@ def tkinterTest():
         
         Mdp = mdp_entry.get() #On obtient ce qui est écrit dans l'entrée.
         
+        global retourForce
+        
         retourForce = TestForce(Mdp) #Effectue le test de force.
         
         labForce.config(text=f"Votre force de mot de passe est de {retourForce}/20.") #On change la force affichee.
+        
+        print(ListeMdpUpgrade())
         
         print(GrapheTest()) #Lance la fonction qui fait le graphe.
         
@@ -255,6 +247,12 @@ def tkinterTest():
     Bouton_oeuil.grid(column=1, row=1, sticky = "w") #Organise sur la grille.
     
     tk.Button(frm, text="Vocal",command=lambda: GenerationVocale3(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=0, row=3, sticky = "nsew") #Bouton pour effectuer le test.
+    
+    global Propositions
+    
+    Propositions = tk.Label(frm, text="", bg = "Orange", relief = "sunken", bd = 4)
+    
+    Propositions.grid(column=0, row=3, sticky = "nsew") #Etiquette.
     
     def OuvreOeuil():
         """Ouvre l'oeil.
@@ -379,6 +377,10 @@ def tkinterHome():
     
     Home.columnconfigure(0, weight=1) #On configure la colonne 0 pour qu'elle s'adapte à la taille de la fenêtre.
     
+    global LabelGest
+    
+    global Bouton_
+    
     LabelGest = tk.Label(frm, text="Gestionnaire de mots de passe", bg = "Orange", relief = "sunken") #Une étiquette.
     
     LabelGest.grid(column=0, row=0, sticky = "nsew") #Etiquette.
@@ -390,6 +392,8 @@ def tkinterHome():
     global ChoixUserTest #On peut l'utiliser dans d'autres fonctions.
     
     global ChoixUserGenerateur #On peut l'utiliser dans d'autres fonctions.
+    
+    global TradBtn
     
     ChoixUserGenerateur = tk.Button(frm, text="Générateur", command = lambda: tkinterGenerateur(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #On crée une entrée pour choisir ou aller.
     
@@ -403,8 +407,88 @@ def tkinterHome():
     
     TradBtn.grid(column=0, row=3, sticky = "nsew", padx = 10, pady = 10) #Organise dans la grille.
     
+    Home.after(2000, OralHome)
+    
+    Lire_BoutonGen()
+    
+    Lire_BoutonTest()
+    
+    Lire_BoutonTrad()
+    
+    Lire_BoutonQuit()
+    
     #BoucleBase
     Home.mainloop()
+
+def OralHome():
+    
+    def LireContenu():
+        
+        contenu = LabelGest.cget("text")
+        
+        engine.say(contenu)
+        
+        engine.runAndWait()
+        
+    engine = pyttsx3.init()
+
+    LireContenu()
+
+def Lire_BoutonGen():
+    
+    def LireContenu_(ChoixUserGenerateur):
+        
+        contenu = ChoixUserGenerateur.widget.cget("text")
+    
+        engine.say(contenu)
+    
+        engine.runAndWait()
+        
+    engine = pyttsx3.init()
+    
+    ChoixUserGenerateur.bind("<Enter>", LireContenu_)
+    
+def Lire_BoutonTest():
+    
+    def LireContenu__(ChoixUserTest):
+        
+        contenu = ChoixUserTest.widget.cget("text")
+    
+        engine.say(contenu)
+    
+        engine.runAndWait()
+        
+    engine = pyttsx3.init()
+    
+    ChoixUserTest.bind("<Enter>", LireContenu__)
+    
+def Lire_BoutonTrad():
+    
+    def LireContenu___(TradBtn):
+        
+        contenu = TradBtn.widget.cget("text")
+    
+        engine.say(contenu)
+    
+        engine.runAndWait()
+        
+    engine = pyttsx3.init()
+    
+    TradBtn.bind("<Enter>", LireContenu___)
+    
+def Lire_BoutonQuit():
+    
+    def LireContenu____(Bouton_):
+        
+        contenu = Bouton_.widget.cget("text")
+    
+        engine.say(contenu)
+    
+        engine.runAndWait()
+        
+    engine = pyttsx3.init()
+    
+    Bouton_.bind("<Enter>", LireContenu____)
 
 def TkinterTrad():
     
@@ -455,6 +539,68 @@ def TkinterTrad():
     Label.grid(column = 3, row = 1, pady = (10, 10), padx = (10, 10))
     
     main.mainloop()
+    
+def ListeMdpUpgrade():
+    
+    if retourForce <= 10:
+        
+        ListeMdpAternative = []
+        
+        MdpOrigine = mdp_entry.get()
+        
+        UnCompteurPunct = 0
+        
+        UnCompteurChiffres = 0
+        
+        UnCompteurMaj = 0
+        
+        for UnIndexLettre in MdpOrigine:
+            
+            if UnIndexLettre in punctuation:
+                
+                UnCompteurPunct += 1
+                
+            if type(UnIndexLettre) == int:
+                
+                UnCompteurChiffres += 1
+                
+            if UnIndexLettre in AlphabetMaj:
+                
+                UnCompteurMaj += 1
+              
+        MdpModif = ""  
+              
+        for _ in range(3):
+            
+            if UnCompteurPunct < 3:
+            
+                Indexrange = random.randint(1, 4)
+            
+                MdpModif = MdpOrigine
+            
+                for _ in range(Indexrange):
+                
+                    MdpModif += str(random.choice(punctuation))
+                
+            if UnCompteurChiffres < 3:
+            
+                Indexrange = random.randint(1, 3)
+            
+                for _ in range(Indexrange):
+                
+                    MdpModif += f"{random.randint(0, 9)}"
+                
+            if UnCompteurMaj < 3:
+            
+                Indexrange = random.randint(1, 3)
+            
+                for _ in range(Indexrange):
+                
+                    MdpModif += random.choice(AlphabetMaj)
+            
+            ListeMdpAternative.append(MdpModif)
+        
+        Propositions.config(text = f"{ListeMdpAternative}")
     
 def GenerationVocale():
     
@@ -780,8 +926,6 @@ def Generateur(Longueur, Nombre):
     
     return (GenerationMdp) #Retourne le mot de passe.
 
-
-
 #Test de force
 def TestForce(Mdp):
     """_Ce programme teste la force d'un mot de passe saisi par l'utilisateur._
@@ -816,15 +960,15 @@ def TestForce(Mdp):
 
     for lettre in MdpUser: #Balaye touts les caractères du mot de passe.
         
-        if lettre in string.ascii_uppercase: #Si le caractère se trouve dans la chaîne de caractère de toutes les lettres majuscules.
+        if lettre in AlphabetMaj: #Si le caractère se trouve dans la chaîne de caractère de toutes les lettres majuscules.
             
             Force += 1
             
-        elif lettre in chiffres: #Si au moins un des caractères est un chiffre.
+        if lettre in chiffres: #Si au moins un des caractères est un chiffre.
             
             Fchiffres = 2
             
-        elif lettre in punctuation: #Si au moins un des caractères fait partie de la collection non ordonnée des ponctuations.
+        if lettre in punctuation: #Si le caractères fait partie de la collection non ordonnée des ponctuations.
             
             Force += 1
             
@@ -846,10 +990,6 @@ def TestForce(Mdp):
         
     return(Force) #Retourne la force.
         
-  
-  
-  
-  
 def GrapheTest():
     """On crée un graphique et on en fait une image qu'on enregistre.
     
@@ -921,11 +1061,7 @@ def afficher_graph_tkinter(photo):
     
     tk.Button(graph, command = graph.destroy, text = "Quit", bg = "red", width = 5, height = 1, relief = "ridge", bd = 4).grid(column = 1, row = 1) #Bouton pour quitter.
     
-    
-    
     graph.mainloop() #BoucleBase
     
-  
-  
 #Choix utilisateur
 print(tkinterHome())
