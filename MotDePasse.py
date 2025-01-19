@@ -1162,7 +1162,11 @@ def GrapheTest():
     
     photo = ImageTk.PhotoImage(image) #Convertit l'image sous un format que tkinter comprend.
     
+    print(type(photo))
+    
     afficher_graph_tkinter(photo) #On lance la fonction avec l'image en arguments.
+    
+    return("")
     
 def afficher_graph_tkinter(photo):
     """_Affiche le graphique sur une fenetre tkinter._

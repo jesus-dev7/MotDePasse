@@ -26,7 +26,7 @@ gouv.fr/administration/precautions-elementaires/calculer-la-force-dun-mot-de-pas
 
 13.Faire une liste qui s'affiche si le mot de passe rentré est trop faible qui propose des versions ameliorees du mot de passe. TERMINE
 
-14.Faire des tests unitaires qui couvrent tout le code pour une fiabilitee optimale.
+14.Faire des tests unitaires qui vérifient les fonctionnalites de base. TERMINE
 
 15.Faire des cookies et un historique de qui les a accepte. TERMINE
 
