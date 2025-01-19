@@ -210,7 +210,9 @@ def tkinterTest():
     
     tk.Label(frm, text="Force du mot de passe", bg = "Orange", relief = "sunken", bd = 4).grid(column=0, row=0, sticky = "nsew") #Etiquette.
     
-    tk.Button(frm, text="Quit", command=root.destroy, bg = "red", width = 5).grid(column=1, row=3) #Bouton pour détruire la fenêtre.
+    UnBoutonQuit = tk.Button(frm, text="Quit", command=root.destroy, bg = "red", width = 5) #Bouton pour détruire la fenêtre.
+    
+    UnBoutonQuit.grid(column=1, row=3)
     
     global mdp_entry #On peut l'utiliser dans d'autres fonctions.
     
@@ -218,7 +220,9 @@ def tkinterTest():
     
     mdp_entry.grid(column=0, row=1, sticky = "nsew") #Place l'entrée dans l'endroit de la grille voulu.
     
-    tk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=0) #Bouton pour effectuer le test.
+    ForceDuMDPBtn = tk.Button(frm, text="Force du mot de passe",command=lambda: mdpGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #Bouton pour effectuer le test.
+    
+    ForceDuMDPBtn.grid(column=1, row=0)
     
     labForce = tk.Label(frm, text=f"Votre force de mot de passe est de [?]/20.", bg = "Orange", relief = "sunken", bd = 4)#Affiche une étiquette sur laquelle est donnée la force du mot de passe.
     
@@ -226,7 +230,7 @@ def tkinterTest():
     
     global imageOuvert #On peut l'utiliser dans d'autres fonctions.
     
-    imageOuvert = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilOuvert.jpg") #Ouvre l'image.
+    imageOuvert = Image.open(r"OeuilOuvert.jpg") #Ouvre l'image.
     
     imageOuvert = imageOuvert.resize((30, 22)) #Redimensionne l'image.
     
@@ -234,7 +238,7 @@ def tkinterTest():
     
     global imageOeuilFerme #On peut l'utiliser dans d'autres fonctions.
     
-    imageOeuilFerme = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\OeuilFerme.jpg") #Ouvre l'image.
+    imageOeuilFerme = Image.open(r"OeuilFerme.jpg") #Ouvre l'image.
     
     imageOeuilFerme = imageOeuilFerme.resize((30, 22)) #Redimensionne l'image.
     
@@ -246,13 +250,63 @@ def tkinterTest():
     
     Bouton_oeuil.grid(column=1, row=1, sticky = "w") #Organise sur la grille.
     
-    tk.Button(frm, text="Vocal",command=lambda: GenerationVocale3(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=0, row=3, sticky = "nsew") #Bouton pour effectuer le test.
+    VocTest = tk.Button(frm, text="Vocal",command=lambda: GenerationVocale3(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #Bouton pour effectuer le test.
+    
+    VocTest.grid(column=1, row=2, sticky = "nsew")
     
     global Propositions
     
     Propositions = tk.Label(frm, text="", bg = "Orange", relief = "sunken", bd = 4)
     
     Propositions.grid(column=0, row=3, sticky = "nsew") #Etiquette.
+    
+    def Lire_BoutonVocTest_():
+    
+        def __LireContenu1_____(VocTest):
+        
+            contenu = VocTest.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        VocTest.bind("<Enter>", __LireContenu1_____)
+    
+    Lire_BoutonVocTest_()
+    
+    def Lire_BoutonVocTestQuit_():
+    
+        def __LireContenu2_____(UnBoutonQuit):
+        
+            contenu = UnBoutonQuit.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        UnBoutonQuit.bind("<Enter>", __LireContenu2_____)
+    
+    Lire_BoutonVocTestQuit_()
+    
+    def Lire_BoutonVocTestForce_():
+    
+        def __LireContenu3_____(ForceDuMDPBtn):
+        
+            contenu = ForceDuMDPBtn.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        ForceDuMDPBtn.bind("<Enter>", __LireContenu3_____)
+    
+    Lire_BoutonVocTestForce_()
     
     def OuvreOeuil():
         """Ouvre l'oeil.
@@ -339,20 +393,91 @@ def tkinterGenerateur():
     
     tk.Label(frm_, text="Nombre de mots", bg = "Orange", relief = "ridge", bd = 4).grid(column=1, row=2, sticky = "ew") #Etiquette.
     
-    tk.Button(frm_, text="Valider", command=lambda: optionsGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=0, sticky = "nsew") #Bouton lançant la génération.
+    global BTN_Valid
+    
+    BTN_Valid = tk.Button(frm_, text="Valider", command=lambda: optionsGet(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #Bouton lançant la génération.
+    
+    BTN_Valid.grid(column=1, row=0, sticky = "nsew")
     
     Label_result = tk.Label(frm_, text=f"Votre mot de passe est [?].", bg = "Orange", relief = "sunken", bd = 4) #Etiquette qui affiche le mot de passe.
     
     Label_result.grid(column=0, row=3, sticky = "nsew")
     
-    tk.Button(frm_, text="Vocal", command=lambda: GenerationVocale(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=3, sticky = "nsew") #Bouton lançant la génération.
+    Voc1_Gen = tk.Button(frm_, text="Vocal", command=lambda: GenerationVocale(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #Bouton lançant la génération.
     
-    tk.Button(frm_, text="Vocal Champ 2", command=lambda: GenerationVocale2(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")).grid(column=1, row=4, sticky = "nsew") #Bouton lançant la génération.
+    Voc1_Gen.grid(column=1, row=3, sticky = "nsew")
+    
+    Voc2_Gen = tk.Button(frm_, text="Vocal Champ 2", command=lambda: GenerationVocale2(), bg = "Blue", fg = "red", font = ("Times New Roman", 10, "bold italic")) #Bouton lançant la génération.
+    
+    Voc2_Gen.grid(column=1, row=4, sticky = "nsew")
+    
+    def Lire_BoutonValider_():
+    
+        def LireContenu_____(BTN_Valid):
+        
+            contenu = BTN_Valid.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        BTN_Valid.bind("<Enter>", LireContenu_____)
+    
+    Lire_BoutonValider_()
+    
+    def Lire_BoutonQuit_():
+    
+        def _LireContenu_____(UnBoutonDeDestruction):
+        
+            contenu = UnBoutonDeDestruction.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        UnBoutonDeDestruction.bind("<Enter>", _LireContenu_____)
+    
+    Lire_BoutonQuit_()
+    
+    def Lire_BoutonVoc1_():
+    
+        def __LireContenu_____(Voc1_Gen):
+        
+            contenu = Voc1_Gen.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        Voc1_Gen.bind("<Enter>", __LireContenu_____)
+    
+    Lire_BoutonVoc1_()
+    
+    def Lire_BoutonVoc2_():
+    
+        def __LireContenu_____(Voc2_Gen):
+        
+            contenu = Voc2_Gen.widget.cget("text")
+    
+            engine.say(contenu)
+    
+            engine.runAndWait()
+        
+        engine = pyttsx3.init()
+    
+        Voc2_Gen.bind("<Enter>", __LireContenu_____)
+    
+    Lire_BoutonVoc2_()
     
     #BoucleBase
     GenerateurTKinter.mainloop()
     
-
 def tkinterHome():
     """Fenêtre principale.
     
@@ -1021,13 +1146,13 @@ def GrapheTest():
     
     plt.scatter(CarX, FreqY, marker = "+", color = "green") #Crée des points pour chaque paire de valeurs.
     
-    plt.savefig(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Sauvegarde du graphique.
+    plt.savefig(r"Graphique.png") #Sauvegarde du graphique.
       
     
     #On ouvre l'image puis on la convertit a un format que tkinter comprend mais si ca ne fonctionne pas on retourne un message d'erreur. Cela n'est utile que pour mieux avoir conscience d'ou peut se situer une erreur.
     try:
         
-        image = Image.open(r"C:\Users\anneg\Desktop\MotDePasse\Graphique.png") #Ouvre l'image.
+        image = Image.open(r"Graphique.png") #Ouvre l'image.
         
     except: # Si ca ne fonctionne pas.
         

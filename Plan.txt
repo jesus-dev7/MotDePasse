@@ -20,7 +20,7 @@ gouv.fr/administration/precautions-elementaires/calculer-la-force-dun-mot-de-pas
 
 10.Faire un mode pour pouvoir ecrire avec la voix et qui enregistre les paroles dans un historique de facon cryptee. TERMINE
 
-11.Faire un mode qui lit le texte sur la GUI.
+11.Faire un mode qui lit le texte sur la GUI. TERMINE
 
 12.Faire un reseau neuronal qui donne le pourcentage d'originalite du mot de passe par rapport a la moyenne des mots de passe.
 
